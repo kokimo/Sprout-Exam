@@ -6,7 +6,7 @@ export class EmployeeCreate extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { fullName: '',birthdate: '',tin: '',typeId: 1, loading: false,loadingSave:false };
+    this.state = { fullName: '',birthdate: '',tin: '',typeId: 1, loading: false,loadingSave:false, hasError : false };
   }
 
   componentDidMount() {
@@ -32,24 +32,29 @@ export class EmployeeCreate extends Component {
 <div className='form-row'>
 <div className='form-group col-md-6'>
   <label htmlFor='inputFullName4'>Full Name: *</label>
-  <input type='text' className='form-control' id='inputFullName4' onChange={this.handleChange.bind(this)} name="fullName" value={this.state.fullName} placeholder='Full Name' />
+                        <input type='text' className='form-control' id='inputFullName4' onChange={this.handleChange.bind(this)} name="fullName" value={this.state.fullName} placeholder='Full Name' />
+
+                        <span class="text-danger">{this.state.hasError && this.state.fullName == "" ? "Full Name is required" : ""}</span>
 </div>
 <div className='form-group col-md-6'>
   <label htmlFor='inputBirthdate4'>Birthdate: *</label>
   <input type='date' className='form-control' id='inputBirthdate4' onChange={this.handleChange.bind(this)} name="birthdate" value={this.state.birthdate} placeholder='Birthdate' />
-</div>
+                        <span class="text-danger">{this.state.hasError && this.state.birthdate == "" ? "Birthdate is required" : ""}</span>
+                    </div>
 </div>
 <div className="form-row">
 <div className='form-group col-md-6'>
   <label htmlFor='inputTin4'>TIN: *</label>
-  <input type='text' className='form-control' id='inputTin4' onChange={this.handleChange.bind(this)} value={this.state.tin} name="tin" placeholder='TIN' />
+                        <input type='text' className='form-control' id='inputTin4' onChange={this.handleChange.bind(this)} value={this.state.tin} name="tin" placeholder='TIN' />
+                        <span class="text-danger">{this.state.hasError && this.state.tin == "" ? "TIN is required" : ""}</span>
 </div>
 <div className='form-group col-md-6'>
   <label htmlFor='inputEmployeeType4'>Employee Type: *</label>
   <select id='inputEmployeeType4' onChange={this.handleChange.bind(this)} value={this.state.typeId}  name="typeId" className='form-control'>
     <option value='1'>Regular</option>
     <option value='2'>Contractual</option>
-  </select>
+                        </select>
+                        <span class="text-danger">{this.state.hasError && this.state.typeId == "" ? "Employee Type is required" : ""}</span>
 </div>
 </div>
 <button type="submit" onClick={this.handleSubmit.bind(this)} disabled={this.state.loadingSave} className="btn btn-primary mr-2">{this.state.loadingSave?"Loading...": "Save"}</button>
@@ -66,7 +71,14 @@ export class EmployeeCreate extends Component {
     );
   }
 
-  async saveEmployee() {
+    async saveEmployee() {
+
+        if (this.state.fullName == "" || this.state.birthdate == "" || this.state.tin == "" || this.state.typeId == "") {
+            this.setState({ hasError: true });
+            return;
+        } else {
+            this.setState({ hasError: false });
+        }
     this.setState({ loadingSave: true });
     const token = await authService.getAccessToken();
     const requestOptions = {

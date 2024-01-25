@@ -9,6 +9,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Sprout.Exam.Business.Interfaces;
+using Sprout.Exam.Business.Repository;
 using Sprout.Exam.WebApp.Data;
 using Sprout.Exam.WebApp.Models;
 
@@ -38,11 +40,15 @@ namespace Sprout.Exam.WebApp
             services.AddIdentityServer()
                 .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
 
+            services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+
             services.AddAuthentication()
                 .AddIdentityServerJwt();
 
             services.AddControllersWithViews();
             services.AddRazorPages();
+
+            services.AddMvc().AddNewtonsoftJson();
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
