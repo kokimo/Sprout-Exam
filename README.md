@@ -43,4 +43,4 @@ Restore updated database using the SproutDbExamUpdated.bak
 - Add Employee Type services. This includes tables to hold employee type data. This is useful if we plan to have different employee types in the future. 
 - Depending on what other feature, Consider adopting a microservices architecture for independent scaling of components.
 - Improve UI, use modals instead of alerts.
-- Add CI/CD pipeline
+- Add CreatedBy,CreatedDate, ModifiedBy, ModifiedDate on every table. The aforementioned data is necessary when an audit or responsibility assignment control must be carried out.
