@@ -6,7 +6,7 @@ export class EmployeeCalculate extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { id: 0,fullName: '',birthdate: '',tin: '',employeeTypeId: 1,absentDays: 0,workedDays: '',netIncome: 0, loading: true,loadingCalculate:false };
+    this.state = { id: 0,fullName: '',birthdate: '',tin: '',employeeTypeId: 1,absentDays: 0,workedDays: 0,netIncome: 0, loading: true,loadingCalculate:false };
   }
 
   componentDidMount() {
@@ -110,8 +110,7 @@ export class EmployeeCalculate extends Component {
           this.setState({ loading: false, loadingCalculate: false });
           return;
       }
-      console.log(this.state.workedDays);
-      console.log(this.state);
+
       if (this.state.employeeTypeId == 2 && this.state.workedDays == "") {
           alert("Worked days cannot be empty");
           this.setState({ loading: false, loadingCalculate: false });
